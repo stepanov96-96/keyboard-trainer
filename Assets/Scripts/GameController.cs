@@ -172,6 +172,7 @@ public class GameController : MonoBehaviour
         currentNumb = rand;
         StartCoroutine(Timer());
         EnemyControll.Instance.PlayGame();
+        Restart();
         timer = 0;
         nextLevel = 30;
     }
@@ -201,6 +202,8 @@ public class GameController : MonoBehaviour
             ResultText[0].SetActive(true);
             level++;
             Restart();
+            LevelControl();
+            print("Level "+ level);
         }
         else
         {
