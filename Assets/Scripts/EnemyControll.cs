@@ -5,8 +5,10 @@ using UnityEngine;
 public class EnemyControll : MonoBehaviour
 {
     public static EnemyControll Instance;
-    
+
     [SerializeField]
+    float  min, max;
+
     float time;
 
     Vector3 resetPos;
@@ -19,12 +21,13 @@ public class EnemyControll : MonoBehaviour
 
     public void PlayGame() 
     {
+        time = Random.Range(min, max);
         StartCoroutine(MovementEnemy());
     }
 
     IEnumerator MovementEnemy()
     {
-        while (true)
+        while (GameController.resetGame)
         {
             yield return new WaitForSeconds(time);
             this.transform.position += new Vector3(0, .3f, 0);
@@ -34,6 +37,8 @@ public class EnemyControll : MonoBehaviour
 
     public void RestartGame() 
     {
+        StopCoroutine(MovementEnemy());
         transform.position = resetPos;
+        StartCoroutine(MovementEnemy());
     }
 }

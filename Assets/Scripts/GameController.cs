@@ -43,15 +43,18 @@ public class GameController : MonoBehaviour
     [SerializeField]
     GameObject[] ResultText;
 
-    int level;
+    public static int level;
 
     bool isPlay;
+
+    public static bool resetGame;
 
 
     private void Awake()
     {
         Instance = this;
         LevelControl();
+        resetGame = true;
         isPlay = false;
     }
     // Start is called before the first frame update
@@ -156,38 +159,45 @@ public class GameController : MonoBehaviour
 
     public void Restart() 
     {
-
+        StopCoroutine(Timer());
         PlayerControl.Instance.ResetGame();
         EnemyControll.Instance.RestartGame();
         timer = 0;
         nextLevel = 30;
         Time.timeScale = 1;
+        resetGame = true;
+        StartCoroutine(Timer());
     }
     public void StartGame() 
     {
+        StopCoroutine(Timer());
         Result.SetActive(false);
         Time.timeScale = 1;
         isPlay = true;
         rand = Random.Range(0, RandSimbols.Length);
         currentNumb = rand;
-        StartCoroutine(Timer());
+
         EnemyControll.Instance.PlayGame();
         Restart();
         timer = 0;
         nextLevel = 30;
+        resetGame = true;
+        StartCoroutine(Timer());
     }
 
     bool isStopGame;
     public void StopGame() 
     {
         isStopGame = !isStopGame;
+
         if (isStopGame)
             Time.timeScale = 0;
         else
             Time.timeScale = 1;
+        print(isStopGame);
     }
 
-    
+    public Text CurrentTimer;
     public void NextLevel(bool playerNextLevel) 
     {
         Result.SetActive(true);
@@ -204,6 +214,8 @@ public class GameController : MonoBehaviour
             Restart();
             LevelControl();
             print("Level "+ level);
+            CurrentTimer.text = "" + timer.ToString("D2");
+
         }
         else
         {
@@ -221,7 +233,7 @@ public class GameController : MonoBehaviour
     {
 
 
-        while (true)
+        while (resetGame)
         {
             yield return new WaitForSeconds(1f);
             timer++;

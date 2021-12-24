@@ -15,7 +15,7 @@ public class Finish : MonoBehaviour
                 GameController.Instance.NextLevel(true);
             else
                 GameController.Instance.NextLevel(false);
-
+            GameController.resetGame = false;
         }
 
         if (other.tag == "Enemy1")
