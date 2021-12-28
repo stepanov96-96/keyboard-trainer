@@ -208,13 +208,13 @@ public class GameController : MonoBehaviour
 
         if (playerNextLevel)
         {
-
+            CurrentTimer.text = "" + timer.ToString("D2");
             ResultText[0].SetActive(true);
             level++;
             Restart();
             LevelControl();
             print("Level "+ level);
-            CurrentTimer.text = "" + timer.ToString("D2");
+            
 
         }
         else
